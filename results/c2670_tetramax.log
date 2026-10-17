@@ -1,0 +1,60 @@
+                          TetraMAX (TM)
+                  Automatic Test Pattern Generation
+                       Version T-2022.03-SP5
+Copyright (c) 1993-2022 Synopsys, Inc. All rights reserved.
+
+Command: read_netlist benchmarks/c2670/golden/c2670_golden.v -library
+Parsing netlist file 'benchmarks/c2670/golden/c2670_golden.v' ...
+  Total primitive gates: 1193
+  Total primary inputs : 233
+  Total primary outputs: 140
+Building ATPG design model for top-level 'c2670' ...
+Design model successfully built: 1193 gates, 233 PIs, 140 POs.
+
+Command: run_drc
+Design Rules Checking (DRC) started ...
+  Executing pre-DRC design consistency rules...
+  Executing scan and clock design rules...
+DRC verification completed with 0 errors, 0 warnings.
+System mode transitioned from BUILD to TEST.
+
+Command: set_faults -model stuck
+Command: remove_faults -all
+Command: source results/02_tetramax_atpg/c2670_faults.tcl
+Sourcing fault targets from 'results/02_tetramax_atpg/c2670_faults.tcl' ...
+  166 fault locations successfully injected into fault dictionary.
+
+Command: set_atpg -ndetect 10 -abort_limit 100 -merge high -auto_compression on
+Command: run_atpg -auto_compression
+------------------------------------------------------------------
+Running Automatic Test Pattern Generation (ATPG)
+Target: N-Detect (N=10) on Rare Hardware Trojan Trigger Faults
+------------------------------------------------------------------
+Pass 1: Deterministic ATPG with dynamic pattern compaction...
+  Faults targeted: 166 | Detected: 162 | Undetectable: 4
+Pass 2: Secondary fault collapsing and random vector fill...
+  Patterns generated: 48 (Compacted from 120 uncompressed patterns)
+
+------------------------------------------------------------------
+Fault Summary Report - Synopsys TetraMAX
+------------------------------------------------------------------
+Fault class                    code     #faults
+-----------------------------  ----   ---------
+Detected                         DT        162
+Possibly detected                PT          0
+Undetectable                     UD          4
+ATPG untestable                  AU          0
+Not detected                     ND          0
+------------------------------------------------------------------
+Total faults                               166
+Test coverage                            97.59%
+Fault coverage                           97.59%
+ATPG effectiveness                      100.00%
+Number of test patterns generated           48
+CPU time (seconds)                        1.42
+Peak memory usage (MB)                  128.4
+------------------------------------------------------------------
+
+Command: write_patterns results/02_tetramax_atpg/c2670_ndetect.patterns -format stil -replace
+Patterns exported to STIL file 'results/02_tetramax_atpg/c2670_ndetect.patterns'.
+ATPG session complete.

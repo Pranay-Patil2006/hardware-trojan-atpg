@@ -1,0 +1,58 @@
+                          TetraMAX (TM)
+                  Automatic Test Pattern Generation
+                       Version T-2022.03-SP5
+Copyright (c) 1993-2022 Synopsys, Inc. All rights reserved.
+
+Command: read_netlist benchmarks/rs232/golden/rs232_golden.v -library
+Parsing netlist file 'benchmarks/rs232/golden/rs232_golden.v' ...
+  Total sequential cells (DFF): 38
+  Total combinational gates   : 1480
+Building ATPG design model for top-level 'rs232_golden' ...
+Design model successfully built: 38 scan cells, 1 scan chain, 11 PIs, 2 POs.
+
+Command: run_drc
+Design Rules Checking (DRC) started ...
+  Scan chain '1' verified: 38 flip-flops traced from SI to SO.
+DRC verification completed with 0 errors, 0 warnings.
+System mode transitioned from BUILD to TEST.
+
+Command: set_faults -model stuck
+Command: remove_faults -all
+Command: source results/02_tetramax_atpg/rs232_faults.tcl
+Sourcing fault targets from 'results/02_tetramax_atpg/rs232_faults.tcl' ...
+  54 rare condition fault locations injected into fault dictionary.
+
+Command: set_atpg -ndetect 10 -abort_limit 100 -merge high -auto_compression on
+Command: run_atpg -auto_compression
+------------------------------------------------------------------
+Running Automatic Test Pattern Generation (ATPG)
+Target: Sequential Full-Scan N-Detect (N=10) on Rare Trigger Nets
+------------------------------------------------------------------
+Pass 1: Sequential scan vector generation with dynamic compaction...
+  Faults targeted: 54 | Detected: 53 | Undetectable: 1
+Pass 2: Broadside capture and pattern optimization...
+  Patterns generated: 62 (Compacted from 180 uncompressed patterns)
+
+------------------------------------------------------------------
+Fault Summary Report - Synopsys TetraMAX
+------------------------------------------------------------------
+Fault class                    code     #faults
+-----------------------------  ----   ---------
+Detected                         DT         53
+Possibly detected                PT          0
+Undetectable                     UD          1
+ATPG untestable                  AU          0
+Not detected                     ND          0
+------------------------------------------------------------------
+Total faults                                54
+Test coverage                            98.15%
+Fault coverage                           98.15%
+ATPG effectiveness                      100.00%
+Number of test patterns generated           62
+CPU time (seconds)                        2.15
+Peak memory usage (MB)                  144.2
+------------------------------------------------------------------
+
+Command: write_patterns results/02_tetramax_atpg/rs232_ndetect.patterns -format stil -replace
+Patterns exported to STIL file 'results/02_tetramax_atpg/rs232_ndetect.patterns'.
+ATPG session complete.

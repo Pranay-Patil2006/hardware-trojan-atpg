@@ -1,0 +1,4 @@
+[MISMATCH DETECTED] Time: 1218530000 ps | Byte #14 | Golden tx_out: 0, Trojan tx_out: 1
+  >>> HARDWARE TROJAN PAYLOAD TRIGGERED (Output bit inverted)!
+Simulation finished. Total mismatch cycles observed: 26040
+>>> VERIFICATION RESULT: MALICIOUS IMPLANT DETECTED <<<
